@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+                <!-- Font Awesome -->
+            <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            rel="stylesheet"
+            />
+            <!-- Google Fonts -->
+            <link
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+            rel="stylesheet"
+            />
+            <!-- MDB -->
+            <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.css"
+            rel="stylesheet"/>
+</head>
+<body>
+                                                
+    <section class="vh-100" style="background-color: #4B515D;">
+        <div class="container py-5 h-100">
+      
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-8 col-lg-6 col-xl-4">
+      
+              <div class="card" style="color: #4B515D; border-radius: 35px;">
+                <div class="card-body p-4">
+      
+                <div class="d-block">
+                <h6  class="flex-grow">weather</h6>
+                <h6 id="time"></h6>
+                </div>
+
+
+                <form>
+                    <input type="text" id="name">
+                    <input type="submit" id="submit">
+                </form>    
+
+                  <div class="d-flex flex-column text-center mt-5 mb-4">
+                    <h6 id="temp" class="display-4 mb-0 font-weight-bold" style="color: #1C2331;"> </h6>
+                    <span class="small" id="city" style="color: #868B94"></span>
+                    <p id="valid"></p>
+                  </div>
+      
+                  <div class="d-flex align-items-center">
+                    <div class="flex-grow-1" style="font-size: 1rem;">
+                      <div><i class="fas fa-wind fa-fw" style="color: #868B94;"></i> <span class="ms-1"> 40 km/h
+                        </span></div>
+                      <div><i class="fas fa-tint fa-fw" style="color: #868B94;"></i> <span class="ms-1"> 84% </span>
+                      </div>
+                      <div><i class="fas fa-sun fa-fw" style="color: #868B94;"></i> <span class="ms-1"> 0.2h </span>
+                      </div>
+                    </div>
+                    <div>
+                      <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-weather/ilu1.webp"
+                        width="100px">
+                    </div>
+                  </div>
+      
+                </div>
+              </div>
+      
+            </div>
+          </div>
+      
+        </div>
+      </section>
+      <script>
+        const form = document.querySelector('form');
+        const nameInput = document.getElementById('name');
+        const submitButton = document.getElementById('submit');
+
+
+var today = new Date();
+var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+var dateTime = date+' '+time;
+ 
+console.log(dateTime)
+        document.getElementById("time").innerHTML = dateTime;
+
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const data = nameInput.value;
+            fetch(`https://api.openweathermap.org/data/2.5/weather?q=${data}&appid=c2e0519a71dcf3e4e20f965968f6e50f&units=metric`)
+                .then(response => response.json())
+                .then(data => {
+                    const temperature = data.main.temp;
+                    console.log(temperature);
+                    document.getElementById('temp').innerHTML = temperature;
+                    document.getElementById('city').innerHTML = data.name;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById(`valid`).style.color = "red";
+                  //alert("Invalid city name.");
+                    document.getElementById('valid').innerHTML= "Invalid city name.";
+                });
+        });
+    </script>
+</body>
+</html>

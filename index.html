@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form>
+        <input type="text" id="name">
+        <input type="submit" id="submit">
+    </form>
+    <div>
+        <h1 id="temp"></h1>
+        <h1 id="city"></h1>
+    </div>
+    <script>
+        const form = document.querySelector('form');
+        const nameInput = document.getElementById('name');
+      const submitButton = document.getElementById('submit');
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const data = nameInput.value;
+            fetch(`https://api.openweathermap.org/data/2.5/weather?q=${data}&appid=c2e0519a71dcf3e4e20f965968f6e50f`)
+                .then(response => response.json())
+                .then(data => {
+                    const temperature = data.main.temp;
+                    console.log(temperature);
+                    document.getElementById('temp').innerHTML = temperature ;
+                    document.getElementById('city').innerHTML = data.name;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+    </script>
+    
+</body>
+</html>
